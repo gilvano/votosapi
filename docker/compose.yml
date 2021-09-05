@@ -1,0 +1,20 @@
+version: '3.5'
+
+services:
+  votos-postgres:
+    container_name: votos-postgres 
+    image: postgres:12.7-alpine
+    ports:
+      - 5432:5432
+    environment: 
+      POSTGRES_DB: dbvotos
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+    volumes:
+      - database-data:/var/lib/postgresql/data
+
+volumes:
+  database-data: 
+
+
+  
