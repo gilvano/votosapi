@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import com.gilvano.votosapi.api.v1.request.AssociadoRequest;
 import com.gilvano.votosapi.api.v1.response.AssociadoResponse;
 import com.gilvano.votosapi.model.Associado;
@@ -35,10 +37,10 @@ public class AssociadoController {
     @Autowired
     private final AssociadoService associadoService;
 
-    @PostMapping
+    @PostMapping(produces = { "application/json" })
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Cadastrar um novo associado")
-    public ResponseEntity<AssociadoResponse> salvar(@RequestBody AssociadoRequest associadoRequest, UriComponentsBuilder uriBuilder){
+    public ResponseEntity<AssociadoResponse> salvar(@Valid @RequestBody AssociadoRequest associadoRequest, UriComponentsBuilder uriBuilder){
         Associado associado = associadoService.salvar(associadoRequest.mapToAssociado());
         URI uri = uriBuilder.path("/api/v1/associado/{id}").buildAndExpand(associado.getId()).toUri();
         return ResponseEntity.created(uri).body(new AssociadoResponse(associado));

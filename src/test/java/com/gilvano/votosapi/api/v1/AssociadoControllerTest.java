@@ -19,12 +19,15 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
@@ -69,5 +72,22 @@ public class AssociadoControllerTest {
                 .andExpect(jsonPath("id").value(10))
                 .andExpect(jsonPath("nome").value(associadoRequest.getNome()))
                 .andExpect(jsonPath("cpf").value(associadoRequest.getCpf()));
+    }
+
+    @Test
+    @DisplayName("Deve retornar um BadRequest ao cadastrar um associado invalido")
+    public void cadastrarAssociadoInvalidoTest() throws Exception {
+        AssociadoRequest associadoRequest = new AssociadoRequest();
+
+        String json = new ObjectMapper().writeValueAsString(associadoRequest);
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .post(ASSOCIADO_API)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(json);
+                
+         mvc.perform(request)
+                 .andExpect(status().isBadRequest());
     }    
 }
