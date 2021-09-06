@@ -2,11 +2,15 @@ package com.gilvano.votosapi.api.v1.response;
 
 import com.gilvano.votosapi.model.Associado;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@Builder
 public class AssociadoResponse {
 
     private Long id;
