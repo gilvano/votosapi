@@ -33,7 +33,7 @@ public class SessaoVotacaoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @Operation(summary = "Criar uma nova pauta")
+    @Operation(summary = "Criar uma nova sessao de votacao")
     public SessaoVotacao save(@Valid @RequestBody SessaoVotacao sessaoVotacao){
         return sessaoVotacaoService.salvar(sessaoVotacao);
     }
