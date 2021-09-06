@@ -23,7 +23,7 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/api/associado")
 @AllArgsConstructor
-@Tag(name = "Pauta", description = "Controller Pauta")
+@Tag(name = "Associado", description = "Controller Associado")
 public class AssociadoController {
 
     @Autowired
