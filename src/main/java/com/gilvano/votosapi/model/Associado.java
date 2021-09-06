@@ -31,6 +31,10 @@ public class Associado {
     private String cpf;
 
     @NotNull
-    private LocalDateTime dataCriacao = LocalDateTime.now();
-    
+    private LocalDateTime dataCadastro = LocalDateTime.now();
+
+    public Associado(String cpf, String nome){
+        this.cpf = cpf;
+        this.nome = nome;
+    }    
 }
