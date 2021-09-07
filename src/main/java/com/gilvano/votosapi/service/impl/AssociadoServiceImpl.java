@@ -8,7 +8,9 @@ import com.gilvano.votosapi.repository.AssociadoRepository;
 import com.gilvano.votosapi.service.AssociadoService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class AssociadoServiceImpl implements AssociadoService {
@@ -18,6 +20,11 @@ public class AssociadoServiceImpl implements AssociadoService {
     
     @Override
     public Associado salvar(Associado associado) {
+        Optional<Associado> associadoExistente = associadoRepository.findByCpf(associado.getCpf());
+        if (associadoExistente.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Associado já cadastrado");
+        }
+
         return associadoRepository.save(associado);
     }
 
