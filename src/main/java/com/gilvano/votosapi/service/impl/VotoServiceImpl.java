@@ -1,6 +1,7 @@
 package com.gilvano.votosapi.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.gilvano.votosapi.api.v1.request.VotoRequest;
 import com.gilvano.votosapi.model.Associado;
@@ -29,17 +30,33 @@ public class VotoServiceImpl implements VotoService {
     private SessaoVotacaoService sessaoVotacaoService; 
     
     public Voto salvar(VotoRequest votoRequest) {
-        Voto voto = Voto.builder()
+        Voto voto = criarVoto(votoRequest);
+         
+        validarUsuarioJaVotou(voto);
+
+        return votoRepository.save(voto);
+    }    
+   
+    public List<Voto> buscarTodos() {
+        return votoRepository.findAll();
+    }
+
+    private Voto criarVoto(VotoRequest votoRequest) {
+        return Voto.builder()
                         .associado(buscarAssociado(votoRequest))
                         .sessaoVotacao(buscarSessaoVotacao(votoRequest))
                         .voto(votoRequest.getVoto())
                         .build();
-
-        return votoRepository.save(voto);
     }
 
-    public List<Voto> buscarTodos() {
-        return votoRepository.findAll();
+    private void validarUsuarioJaVotou(Voto voto) {
+        Optional<Voto> votoExistente = votoRepository
+                                        .findByAssociado_IdAndSessaoVotacao_id(
+                                            voto.getAssociado().getId(), 
+                                            voto.getSessaoVotacao().getId());   
+        if (votoExistente.isPresent())                                            {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Associado ja votou nessa sessao");
+        }
     }
 
     private Associado buscarAssociado(VotoRequest votoRequest) {
