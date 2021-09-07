@@ -5,11 +5,14 @@ import java.util.List;
 import java.util.Optional;
 
 import com.gilvano.votosapi.api.v1.request.SessaoVotacaoRequest;
+import com.gilvano.votosapi.api.v1.response.ResultadoSessaoResponse;
 import com.gilvano.votosapi.model.Pauta;
 import com.gilvano.votosapi.model.SessaoVotacao;
 import com.gilvano.votosapi.repository.SessaoVotacaoRepository;
+import com.gilvano.votosapi.repository.VotoRepository;
 import com.gilvano.votosapi.service.PautaService;
 import com.gilvano.votosapi.service.SessaoVotacaoService;
+import com.gilvano.votosapi.util.TipoSimNao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +27,10 @@ public class SessaoVotacaoServiceImpl implements SessaoVotacaoService {
 
     @Autowired
     private PautaService pautaService;
+
+    @Autowired
+    private VotoRepository votoRepository;
+
     
     public SessaoVotacao salvar(SessaoVotacaoRequest sessaoVotacaoRequest) {
         Pauta pauta = buscarPauta(sessaoVotacaoRequest);
@@ -41,6 +48,23 @@ public class SessaoVotacaoServiceImpl implements SessaoVotacaoService {
     
     public Optional<SessaoVotacao> BuscarPorId(Long id) {
         return sessaoVotacaoRepository.findById(id);
+    }
+
+    public ResultadoSessaoResponse buscarResultadoPorId(Long id){
+        SessaoVotacao sessao = sessaoVotacaoRepository.findById(id)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Sessao de Votacao nao encontrada." ));
+        
+        if(sessao.Ativa()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Sessao de Votacao ainda não foi encerrada." );    
+        }
+        
+        return ResultadoSessaoResponse.builder()
+                .pauta(sessao.getPauta())
+                .dataAbertura(sessao.getDataCriacao())
+                .dataFechamento(sessao.getDataFinalizacao())
+                .totalVotosSim(votoRepository.countVotoBySessaoVotacao_IdAndVoto(id, TipoSimNao.SIM))
+                .totalVotosNao(votoRepository.countVotoBySessaoVotacao_IdAndVoto(id, TipoSimNao.NAO))
+                .build();
     }
     
     private Pauta buscarPauta(SessaoVotacaoRequest sessaoVotacaoRequest) {

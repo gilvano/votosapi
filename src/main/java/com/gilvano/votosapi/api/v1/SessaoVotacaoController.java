@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import com.gilvano.votosapi.api.v1.request.SessaoVotacaoRequest;
+import com.gilvano.votosapi.api.v1.response.ResultadoSessaoResponse;
 import com.gilvano.votosapi.model.SessaoVotacao;
 import com.gilvano.votosapi.service.SessaoVotacaoService;
 
@@ -52,6 +53,13 @@ public class SessaoVotacaoController {
     @Operation(summary = "Buscar todas as sessoes")
     public List<SessaoVotacao> buscarTodos(){
         return sessaoVotacaoService.buscarTodos();
+    }
+
+    @GetMapping(value = "resultado/{id}", produces = { "application/json" })
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Buscar resultado da sessão por id")
+    public ResultadoSessaoResponse buscarResultadoPorId(@PathVariable Long id){
+        return sessaoVotacaoService.buscarResultadoPorId(id);
     }
     
 }
