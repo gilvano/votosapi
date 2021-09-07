@@ -47,7 +47,7 @@ public class PautaController {
         return ResponseEntity.created(uri).body(pauta);
     }
 
-    @GetMapping("{id}") 
+    @GetMapping(value = "{id}", produces = { "application/json" }) 
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Buscar uma pauta por Id")
     public ResponseEntity<Pauta> buscarPorId(@PathVariable Long id){
@@ -59,7 +59,7 @@ public class PautaController {
         return ResponseEntity.notFound().build();                 
     }  
 
-    @GetMapping
+    @GetMapping(produces = { "application/json" })
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Buscar todas as pautas")
     public List<Pauta> buscarTodos(){

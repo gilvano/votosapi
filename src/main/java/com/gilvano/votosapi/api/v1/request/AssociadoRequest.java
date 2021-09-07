@@ -18,16 +18,16 @@ import lombok.Setter;
 @NoArgsConstructor
 public class AssociadoRequest {
 
-        @NotNull 
-        @NotEmpty 
-        @Length(min = 11)
-        private String nome; 
+    @NotNull 
+    @NotEmpty 
+    @Length(min = 11)
+    private String nome; 
 
-        @NotNull 
-        @NotEmpty
-        private String cpf;
+    @NotNull 
+    @NotEmpty
+    private String cpf;
 
-        public Associado mapToAssociado() {		
-		return new Associado(cpf, nome);
+    public Associado mapToAssociado() {		
+        return new Associado(cpf, nome);
 	}    
 }

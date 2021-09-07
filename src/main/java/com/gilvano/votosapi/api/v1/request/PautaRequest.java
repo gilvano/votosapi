@@ -16,11 +16,11 @@ import lombok.Setter;
 @NoArgsConstructor
 public class PautaRequest {
 
-        @NotNull 
-        @NotEmpty 
-        private String descricao; 
+    @NotNull 
+    @NotEmpty 
+    private String descricao; 
 
-        public Pauta mapToPauta() {		
-		return new Pauta(descricao);
+    public Pauta mapToPauta() {		
+        return new Pauta(descricao);
 	}    
 }
