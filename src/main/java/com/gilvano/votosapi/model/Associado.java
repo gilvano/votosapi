@@ -33,6 +33,7 @@ public class Associado {
     private String cpf;
 
     @NotNull
+    @Builder.Default
     private LocalDateTime dataCadastro = LocalDateTime.now();
 
     public Associado(String cpf, String nome){
