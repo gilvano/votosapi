@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@Builder(toBuilder = true)
 public class SessaoVotacao {
 
     @Id    
@@ -32,10 +32,8 @@ public class SessaoVotacao {
     private Pauta pauta;
 
     @NotNull
-    @Builder.Default
-    private LocalDateTime dataCriacao = LocalDateTime.now();
+    private LocalDateTime dataCriacao;
 
-    @Builder.Default
-    private Integer minutosDisponivel = 1;
+    private Integer minutosDisponivel;
     
 }

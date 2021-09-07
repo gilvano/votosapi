@@ -1,5 +1,6 @@
 package com.gilvano.votosapi.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +27,7 @@ public class SessaoVotacaoServiceImpl implements SessaoVotacaoService {
     
     public SessaoVotacao salvar(SessaoVotacaoRequest sessaoVotacaoRequest) {
         Pauta pauta = buscarPauta(sessaoVotacaoRequest);
-        
+                      
         SessaoVotacao sessaoVotacao = montarSessaoVotacao(sessaoVotacaoRequest, pauta);
 
         return sessaoVotacaoRepository.save(sessaoVotacao);
@@ -49,11 +50,11 @@ public class SessaoVotacaoServiceImpl implements SessaoVotacaoService {
         return SessaoVotacao.builder()
                 .pauta(pauta)
                 .minutosDisponivel(getMinutosDisponivel(sessaoVotacaoRequest))
+                .dataCriacao(LocalDateTime.now())
                 .build();
     }
 
     private Integer getMinutosDisponivel(SessaoVotacaoRequest sessaoVotacaoRequest) {
         return Optional.ofNullable(sessaoVotacaoRequest.getMinutosDisponivel()).orElse(1);
-    }
-    
+    }    
 }
