@@ -2,6 +2,7 @@ package com.gilvano.votosapi.api.v1.request;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import com.gilvano.votosapi.model.Associado;
 
@@ -20,11 +21,12 @@ public class AssociadoRequest {
 
     @NotNull 
     @NotEmpty 
-    @Length(min = 11)
     private String nome; 
 
     @NotNull 
     @NotEmpty
+    @Pattern(regexp = "[\\s]*[0-9]*[1-9]+", message="Informe apenas os números do CPF sem . e -")
+    @Length(min = 11)
     private String cpf;
 
     public Associado mapToAssociado() {		
