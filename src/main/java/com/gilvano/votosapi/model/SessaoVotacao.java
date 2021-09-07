@@ -40,7 +40,7 @@ public class SessaoVotacao {
     private Integer minutosDisponivel;
 
     public Boolean Ativa() {
-        return  dataCriacao.plusMinutes(minutosDisponivel).isBefore(LocalDateTime.now());
+        return  dataFinalizacao.isAfter(LocalDateTime.now());
     }
     
 }
