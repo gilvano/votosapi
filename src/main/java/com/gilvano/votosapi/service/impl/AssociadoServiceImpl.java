@@ -30,5 +30,10 @@ public class AssociadoServiceImpl implements AssociadoService {
     public Optional<Associado> BuscarPorId(Long id) {
         return associadoRepository.findById(id);
     }
+
+    @Override
+    public Optional<Associado> BuscarPorCpf(String cpf) {
+        return associadoRepository.findByCpf(cpf);    
+    };
     
 }

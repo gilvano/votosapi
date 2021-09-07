@@ -9,5 +9,6 @@ public interface AssociadoService {
     public Associado salvar(Associado associado);    
     public List<Associado> buscarTodos();
     public Optional<Associado> BuscarPorId(Long id);
+    public Optional<Associado> BuscarPorCpf(String cpf);
 }
 
