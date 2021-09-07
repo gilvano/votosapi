@@ -27,6 +27,8 @@ public class SessaoVotacaoServiceImpl implements SessaoVotacaoService {
     
     public SessaoVotacao salvar(SessaoVotacaoRequest sessaoVotacaoRequest) {
         Pauta pauta = buscarPauta(sessaoVotacaoRequest);
+
+        ValidarSessaoAtivaParaPauta(pauta);
                       
         SessaoVotacao sessaoVotacao = montarSessaoVotacao(sessaoVotacaoRequest, pauta);
 
@@ -51,10 +53,20 @@ public class SessaoVotacaoServiceImpl implements SessaoVotacaoService {
                 .pauta(pauta)
                 .minutosDisponivel(getMinutosDisponivel(sessaoVotacaoRequest))
                 .dataCriacao(LocalDateTime.now())
+                .dataFinalizacao(LocalDateTime.now().plusMinutes(getMinutosDisponivel(sessaoVotacaoRequest)))
                 .build();
     }
 
     private Integer getMinutosDisponivel(SessaoVotacaoRequest sessaoVotacaoRequest) {
         return Optional.ofNullable(sessaoVotacaoRequest.getMinutosDisponivel()).orElse(1);
     }    
+
+    private void ValidarSessaoAtivaParaPauta(Pauta pauta) {
+        Optional<SessaoVotacao> sessao = sessaoVotacaoRepository
+                                            .buscarPorPautaAnddataFinalizacao(pauta.getId(), LocalDateTime.now());
+        if(sessao.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, 
+                                              "Ainda existe uma sessao de votação ativa para a Pauta" + pauta.getId());
+        }        
+    }
 }

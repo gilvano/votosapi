@@ -34,6 +34,13 @@ public class SessaoVotacao {
     @NotNull
     private LocalDateTime dataCriacao;
 
+    @NotNull
+    private LocalDateTime dataFinalizacao;
+
     private Integer minutosDisponivel;
+
+    public Boolean Ativa() {
+        return  dataCriacao.plusMinutes(minutosDisponivel).isBefore(LocalDateTime.now());
+    }
     
 }
