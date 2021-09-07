@@ -15,6 +15,7 @@ import javax.validation.constraints.NotNull;
 import com.gilvano.votosapi.util.TipoSimNao;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -23,6 +24,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Voto {
 
     @Id    
@@ -38,6 +40,8 @@ public class Voto {
     @NotNull
 	private TipoSimNao voto;    
 
+    @NotNull
+    @Builder.Default
     private LocalDateTime dataVoto = LocalDateTime.now();
 
     @NotNull

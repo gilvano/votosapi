@@ -1,5 +1,6 @@
-package com.gilvano.votosapi.controller;
+package com.gilvano.votosapi.api.v1;
 
+import com.gilvano.votosapi.api.v1.request.VotoRequest;
 import com.gilvano.votosapi.model.Voto;
 import com.gilvano.votosapi.service.VotoService;
 
@@ -16,7 +17,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping("/api/voto")
+@RequestMapping("/api/v1/voto")
 @AllArgsConstructor
 @Tag(name = "Voto", description = "Controller Voto")
 public class VotoController {
@@ -27,8 +28,8 @@ public class VotoController {
     @PostMapping(produces = { "application/json" })
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Criar um novo voto")
-    public Voto save(@RequestBody Voto voto){
-        return votoService.salvar(voto);
+    public Voto save(@RequestBody VotoRequest votoRequest){
+        return votoService.salvar(votoRequest);
     }
     
 }
