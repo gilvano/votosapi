@@ -1,9 +1,10 @@
-package com.gilvano.votosapi.controller;
+package com.gilvano.votosapi.api.v1;
 
 import java.util.List;
 
 import javax.validation.Valid;
 
+import com.gilvano.votosapi.api.v1.request.SessaoVotacaoRequest;
 import com.gilvano.votosapi.model.SessaoVotacao;
 import com.gilvano.votosapi.service.SessaoVotacaoService;
 
@@ -23,7 +24,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping("/api/sessaovotacao")
+@RequestMapping("/api/v1/sessaovotacao")
 @AllArgsConstructor
 @Tag(name = "Sessao de Votacao", description = "Controller SessaoVotacao")
 public class SessaoVotacaoController {
@@ -31,14 +32,14 @@ public class SessaoVotacaoController {
     @Autowired
     private SessaoVotacaoService sessaoVotacaoService;
 
-    @PostMapping
+    @PostMapping(produces = { "application/json" })
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Criar uma nova sessao de votacao")
-    public SessaoVotacao save(@Valid @RequestBody SessaoVotacao sessaoVotacao){
+    public SessaoVotacao save(@Valid @RequestBody SessaoVotacaoRequest sessaoVotacao){
         return sessaoVotacaoService.salvar(sessaoVotacao);
     }
 
-    @GetMapping("{id}")
+    @GetMapping(value = "{id}", produces = { "application/json" })
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Buscar uma sessao por Id")
     public SessaoVotacao buscarPorId(@PathVariable Long id){
@@ -46,7 +47,7 @@ public class SessaoVotacaoController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Sessao de Votacao nao encontrada." ));
     }  
 
-    @GetMapping
+    @GetMapping(produces = { "application/json" })
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Buscar todas as sessoes")
     public List<SessaoVotacao> buscarTodos(){

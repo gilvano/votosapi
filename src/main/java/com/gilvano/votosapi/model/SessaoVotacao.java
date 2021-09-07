@@ -11,6 +11,7 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -18,6 +19,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class SessaoVotacao {
 
     @Id    
@@ -30,8 +32,10 @@ public class SessaoVotacao {
     private Pauta pauta;
 
     @NotNull
+    @Builder.Default
     private LocalDateTime dataCriacao = LocalDateTime.now();
 
+    @Builder.Default
     private Integer minutosDisponivel = 1;
     
 }
