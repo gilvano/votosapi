@@ -24,4 +24,7 @@ public class Pauta {
     @Column(name = "descricao", nullable = false)
     private String descricao; 
     
+    public Pauta(String descricao){
+        this.descricao = descricao;    
+    }
 }
