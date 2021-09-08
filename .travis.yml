@@ -6,7 +6,7 @@ before_install:
   - chmod +x mvnw
   - psql -c 'create database dbvotos;' -U postgres
 deploy:
- provider: heroku
- api-key: 
-  secure: $HEROKU_API_KEY
- app: app-votosapi 
+  provider: heroku
+  api-key: 
+    secure: $HEROKU_API_KEY
+  app: app-votosapi 
