@@ -12,7 +12,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import lombok.extern.log4j.Log4j2;
+
 @Service
+@Log4j2
 public class AssociadoServiceImpl implements AssociadoService {
 
     @Autowired
@@ -22,9 +25,10 @@ public class AssociadoServiceImpl implements AssociadoService {
     public Associado salvar(Associado associado) {
         Optional<Associado> associadoExistente = associadoRepository.findByCpf(associado.getCpf());
         if (associadoExistente.isPresent()) {
+            log.warn("Já existe um associado cadastrado com o CPF {}", associado.getCpf());
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Associado já cadastrado");
         }
-
+        log.info("Cadastrando associdado com o CPF {}", associado.getCpf());
         return associadoRepository.save(associado);
     }
 

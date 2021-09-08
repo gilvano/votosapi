@@ -19,7 +19,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import lombok.extern.log4j.Log4j2;
+
 @Service
+@Log4j2
 public class SessaoVotacaoServiceImpl implements SessaoVotacaoService {
 
     @Autowired
@@ -51,8 +54,10 @@ public class SessaoVotacaoServiceImpl implements SessaoVotacaoService {
     }
 
     public ResultadoSessaoResponse buscarResultadoPorId(Long id){
+        log.info("Buscando resultado da sessão {}", id);
+
         SessaoVotacao sessao = sessaoVotacaoRepository.findById(id)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Sessao de Votacao nao encontrada." ));
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Sessão de Votação não encontrada." ));
         
         if(sessao.Ativa()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Sessao de Votacao ainda não foi encerrada." );    
@@ -68,17 +73,27 @@ public class SessaoVotacaoServiceImpl implements SessaoVotacaoService {
     }
     
     private Pauta buscarPauta(SessaoVotacaoRequest sessaoVotacaoRequest) {
+        log.info("Buscando pauta {} para criar a sessão de votação", sessaoVotacaoRequest.getIdPauta());
         return pautaService.BuscarPorId(sessaoVotacaoRequest.getIdPauta())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Pauta nao encontrada"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Pauta não encontrada"));
     }
 
     private SessaoVotacao montarSessaoVotacao(SessaoVotacaoRequest sessaoVotacaoRequest, Pauta pauta) {
-        return SessaoVotacao.builder()
+        SessaoVotacao sessao = SessaoVotacao.builder()
                 .pauta(pauta)
                 .minutosDisponivel(getMinutosDisponivel(sessaoVotacaoRequest))
                 .dataCriacao(LocalDateTime.now())
                 .dataFinalizacao(LocalDateTime.now().plusMinutes(getMinutosDisponivel(sessaoVotacaoRequest)))
                 .build();
+        
+        log.info("Criando uma sessão de votação para a pauta {} - {}, na data: {}, que ficará disponível por {} minutos",
+                sessao.getPauta().getId(),
+                sessao.getPauta().getDescricao(), 
+                sessao.getDataCriacao(),
+                sessao.getMinutosDisponivel()
+            ); 
+        
+        return sessao;
     }
 
     private Integer getMinutosDisponivel(SessaoVotacaoRequest sessaoVotacaoRequest) {
@@ -86,6 +101,8 @@ public class SessaoVotacaoServiceImpl implements SessaoVotacaoService {
     }    
 
     private void ValidarSessaoAtivaParaPauta(Pauta pauta) {
+        log.info("Validando se existe uma sessão ativa para a pauta {} - {}", pauta.getId(), pauta.getDescricao());
+
         Optional<SessaoVotacao> sessao = sessaoVotacaoRepository
                                             .buscarPorPautaAnddataFinalizacao(pauta.getId(), LocalDateTime.now());
         if(sessao.isPresent()) {

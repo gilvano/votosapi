@@ -18,7 +18,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import lombok.extern.log4j.Log4j2;
+
 @Service
+@Log4j2
 public class VotoServiceImpl implements VotoService {
 
     @Autowired
@@ -42,6 +45,11 @@ public class VotoServiceImpl implements VotoService {
         
         validarUsuarioJaVotou(voto);
 
+        log.info("Cadastrando voto do associado com o CPF {} na pauta {} - {}", 
+                    voto.getAssociado().getCpf(),
+                    voto.getSessaoVotacao().getPauta().getId(),
+                    voto.getSessaoVotacao().getPauta().getDescricao());
+
         return votoRepository.save(voto);
     }            
 
@@ -50,7 +58,9 @@ public class VotoServiceImpl implements VotoService {
     }
 
     private void validarUsuarioPodeVotar(VotoRequest votoRequest) {
+        log.info("Validando se o associado com o CPF {} pode votar", votoRequest.getCpf());
         if (!validaCpfService.associadoPodeVotar(votoRequest.getCpf())){
+            log.warn("O associado com o CPF {} não está apto para votar", votoRequest.getCpf());
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Associado nao esta apto para votar");
         }
     }
@@ -64,19 +74,29 @@ public class VotoServiceImpl implements VotoService {
     }
 
     private void validarSessaoEstaAtiva(VotoRequest votoRequest) {
+        log.info("Validando se a sessão de votação {} está ativa", votoRequest.getSessaoVotacao());
         SessaoVotacao sessao = sessaoVotacaoService.BuscarPorId(votoRequest.getSessaoVotacao())
                                         .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Sessao nao encontrada"));
         if(!sessao.Ativa()){
+            log.warn("A sessão de votação {} não está ativa", votoRequest.getSessaoVotacao());
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Sessão não está ativa");
         }
     }
 
     private void validarUsuarioJaVotou(Voto voto) {
+        log.info("Validando se o associado com o CPF {} já votou na sessão {}", 
+                    voto.getAssociado().getCpf(),
+                    voto.getSessaoVotacao().getId());
+
         Optional<Voto> votoExistente = votoRepository
                                         .findByAssociado_IdAndSessaoVotacao_id(
                                             voto.getAssociado().getId(), 
                                             voto.getSessaoVotacao().getId());   
         if (votoExistente.isPresent())                                            {
+            log.info("O associado com o CPF {} já votou na sessão {}", 
+                        voto.getAssociado().getCpf(),
+                        voto.getSessaoVotacao().getId());
+                        
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Associado ja votou nessa sessao");
         }
     }
