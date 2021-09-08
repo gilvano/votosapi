@@ -25,7 +25,7 @@ public class AssociadoRequest {
 
     @NotNull 
     @NotEmpty
-    @Pattern(regexp = "[\\s]*[0-9]*[1-9]+", message="Informe apenas os números do CPF sem . e -")
+    @Pattern(regexp = "[\\s]*[0-9]*[0-9]+", message="Informe apenas os números do CPF sem . e -")
     @Length(min = 11)
     private String cpf;
 
