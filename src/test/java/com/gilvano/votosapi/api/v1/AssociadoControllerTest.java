@@ -41,13 +41,13 @@ public class AssociadoControllerTest {
     @Test
     @DisplayName("Deve cadastrar um novo associado")
     public void cadastrarAssociadoTest() throws Exception {
-        AssociadoRequest associadoRequest = new AssociadoRequest("Associado 1", "000.000.000-00");
+        AssociadoRequest associadoRequest = new AssociadoRequest("Associado 1", "34111528007");
 
         Associado associado = Associado
                                     .builder()
-                                    .id(10L)
+                                    .id(1L)
                                     .nome("Associado 1")
-                                    .cpf("000.000.000-00")
+                                    .cpf("34111528007")
                                     .build();
 
         BDDMockito
@@ -64,7 +64,7 @@ public class AssociadoControllerTest {
 
         mvc.perform(request)
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("id").value(10))
+                .andExpect(jsonPath("id").value(1))
                 .andExpect(jsonPath("nome").value(associadoRequest.getNome()))
                 .andExpect(jsonPath("cpf").value(associadoRequest.getCpf()));
     }
