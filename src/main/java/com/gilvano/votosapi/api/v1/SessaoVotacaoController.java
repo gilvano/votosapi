@@ -55,7 +55,7 @@ public class SessaoVotacaoController {
         return sessaoVotacaoService.buscarTodos();
     }
 
-    @GetMapping(value = "resultado/{id}", produces = { "application/json" })
+    @GetMapping(value = "{id}/resultado", produces = { "application/json" })
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Buscar resultado da sessão por id")
     public ResultadoSessaoResponse buscarResultadoPorId(@PathVariable Long id){
