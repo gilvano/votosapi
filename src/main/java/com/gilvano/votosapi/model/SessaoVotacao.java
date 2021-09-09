@@ -37,6 +37,8 @@ public class SessaoVotacao {
     @NotNull
     private LocalDateTime dataFinalizacao;
 
+    private LocalDateTime dataEnvioIntegracao;
+
     private Integer minutosDisponivel;
 
     public Boolean Ativa() {
