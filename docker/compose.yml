@@ -12,9 +12,26 @@ services:
       POSTGRES_PASSWORD: 1234
     volumes:
       - database-data:/var/lib/postgresql/data
+    networks:
+      - votos-network
+
+  votos-rabbitmq:
+    image: rabbitmq:3.8.19-management-alpine
+    container_name: votos-rabbitmq
+    ports:
+        - 5672:5672
+        - 15672:15672
+    volumes:
+        - rabbitmq-data:/var/lib/rabbitmq/
+        - rabbitmq-log:/var/log/rabbitmq
+    networks:
+        - votos-network  
 
 volumes:
   database-data: 
+  rabbitmq-data:
+  rabbitmq-log:
 
-
-  
+networks:
+  votos-network:
+    name: votos-network
