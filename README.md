@@ -67,3 +67,17 @@ POST - http://localhost:8080/api/v1/voto
 #### Resultado da Sessão 
 
 GET - http://localhost:8080/api​/v1​/sessaovotacao​/{id}​/resultado
+
+
+### Tarefas Bônus
+#### Tarefa Bônus 1 - Integração com sistemas externos
+Implementada integração com api que verifica se o associado está apto para votar.
+
+#### Tarefa Bônus 2 - Mensageria e filas
+Implementado uma tarefa para enviar as sessões finalizadas para um serviço de mensageria.
+
+#### Tarefa Bônus 3 - Performance
+
+
+#### Tarefa Bônus 4 - Versionamento da API
+Versionamento da api foi feito com a implementação dos controllers na pasta /api/v1
