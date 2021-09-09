@@ -17,6 +17,7 @@ import com.gilvano.votosapi.util.TipoSimNao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import lombok.extern.log4j.Log4j2;
@@ -64,12 +65,18 @@ public class SessaoVotacaoServiceImpl implements SessaoVotacaoService {
         }
         
         return ResultadoSessaoResponse.builder()
+                .IdSessao(id)
                 .pauta(sessao.getPauta())
-                .dataAbertura(sessao.getDataCriacao())
-                .dataFechamento(sessao.getDataFinalizacao())
+                .dataAbertura(sessao.getDataCriacao().toString())
+                .dataFechamento(sessao.getDataFinalizacao().toString())
                 .totalVotosSim(votoRepository.countVotoBySessaoVotacao_IdAndVoto(id, TipoSimNao.SIM))
                 .totalVotosNao(votoRepository.countVotoBySessaoVotacao_IdAndVoto(id, TipoSimNao.NAO))
                 .build();
+    }
+
+    @Transactional
+    public void atualizarDataEnvioIntegracao(Long idSessao){
+        sessaoVotacaoRepository.setdataEnvioIntegracaoForSessaoVotacao(LocalDateTime.now(), idSessao);
     }
     
     private Pauta buscarPauta(SessaoVotacaoRequest sessaoVotacaoRequest) {

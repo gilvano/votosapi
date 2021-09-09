@@ -12,4 +12,5 @@ public interface SessaoVotacaoService {
     public List<SessaoVotacao> buscarTodos();
     public Optional<SessaoVotacao> BuscarPorId(Long id);   
     public ResultadoSessaoResponse buscarResultadoPorId(Long id);
+    public void atualizarDataEnvioIntegracao(Long idSessao);
 }
