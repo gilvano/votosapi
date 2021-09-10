@@ -5,6 +5,8 @@ dist: trusty
 before_install:
   - chmod +x mvnw
   - psql -c 'create database dbvotos;' -U postgres
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
 
 # deploy:
 #   provider: heroku
