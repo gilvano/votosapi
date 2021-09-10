@@ -1,4 +1,5 @@
 [![Build Status](https://app.travis-ci.com/gilvano/votosapi.svg?branch=main)](https://app.travis-ci.com/gilvano/votosapi)
+[![codecov](https://codecov.io/gh/gilvano/votosapi/branch/main/graph/badge.svg?token=I2E0M6IN99)](https://codecov.io/gh/gilvano/votosapi)
 
 ## API para votação de pautas
 API REST para votação de pautas por associados.
