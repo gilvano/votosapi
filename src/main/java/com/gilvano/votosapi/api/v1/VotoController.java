@@ -1,7 +1,7 @@
 package com.gilvano.votosapi.api.v1;
 
 import com.gilvano.votosapi.api.v1.request.VotoRequest;
-import com.gilvano.votosapi.model.Voto;
+import com.gilvano.votosapi.api.v1.response.VotoResponse;
 import com.gilvano.votosapi.service.VotoService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class VotoController {
     @PostMapping(produces = { "application/json" })
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Criar um novo voto")
-    public Voto save(@RequestBody VotoRequest votoRequest){
+    public VotoResponse save(@RequestBody VotoRequest votoRequest){
         return votoService.salvar(votoRequest);
     }
     

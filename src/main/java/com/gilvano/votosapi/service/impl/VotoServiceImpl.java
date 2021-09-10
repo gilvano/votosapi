@@ -3,7 +3,10 @@ package com.gilvano.votosapi.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import com.gilvano.votosapi.api.v1.exceptions.AssociadoJaVotouNessaSessao;
+import com.gilvano.votosapi.api.v1.exceptions.AssociadoNaoPodeVotarException;
 import com.gilvano.votosapi.api.v1.request.VotoRequest;
+import com.gilvano.votosapi.api.v1.response.VotoResponse;
 import com.gilvano.votosapi.model.Associado;
 import com.gilvano.votosapi.model.SessaoVotacao;
 import com.gilvano.votosapi.model.Voto;
@@ -36,21 +39,24 @@ public class VotoServiceImpl implements VotoService {
     @Autowired
     private ValidaCpfService validaCpfService;
     
-    public Voto salvar(VotoRequest votoRequest) {
-        validarSessaoEstaAtiva(votoRequest);
-        validarUsuarioPodeVotar(votoRequest);
+    public VotoResponse salvar(VotoRequest votoRequest) {
+        try {
+            Voto voto = criarVoto(votoRequest); 
+            validarUsuarioJaVotou(voto);
+            validarSessaoEstaAtiva(votoRequest);
+            validarUsuarioPodeVotar(votoRequest);                    
+            
+            log.info("Cadastrando voto do associado com o CPF {} na pauta {} - {}", 
+                        voto.getAssociado().getCpf(),
+                        voto.getSessaoVotacao().getPauta().getId(),
+                        voto.getSessaoVotacao().getPauta().getDescricao());
 
-        Voto voto = criarVoto(votoRequest);
-        
-        
-        validarUsuarioJaVotou(voto);
+            votoRepository.save(voto);
 
-        log.info("Cadastrando voto do associado com o CPF {} na pauta {} - {}", 
-                    voto.getAssociado().getCpf(),
-                    voto.getSessaoVotacao().getPauta().getId(),
-                    voto.getSessaoVotacao().getPauta().getDescricao());
-
-        return votoRepository.save(voto);
+            return new VotoResponse("Voto computado com sussesso");
+        } catch (Exception e) {
+            return new VotoResponse("Não foi possível processar o voto. Motivo: " + e.getMessage());   
+        }
     }            
 
     public List<Voto> buscarTodos() {
@@ -61,7 +67,7 @@ public class VotoServiceImpl implements VotoService {
         log.info("Validando se o associado com o CPF {} pode votar", votoRequest.getCpf());
         if (!validaCpfService.associadoPodeVotar(votoRequest.getCpf())){
             log.warn("O associado com o CPF {} não está apto para votar", votoRequest.getCpf());
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Associado nao esta apto para votar");
+            throw new AssociadoNaoPodeVotarException();
         }
     }
 
@@ -97,7 +103,7 @@ public class VotoServiceImpl implements VotoService {
                         voto.getAssociado().getCpf(),
                         voto.getSessaoVotacao().getId());
                         
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Associado ja votou nessa sessao");
+            throw new AssociadoJaVotouNessaSessao();
         }
     }
 
