@@ -3,10 +3,13 @@ package com.gilvano.votosapi.service.impl;
 import java.util.List;
 import java.util.Optional;
 
-import com.gilvano.votosapi.api.v1.exceptions.AssociadoJaVotouNessaSessao;
-import com.gilvano.votosapi.api.v1.exceptions.AssociadoNaoPodeVotarException;
 import com.gilvano.votosapi.api.v1.request.VotoRequest;
 import com.gilvano.votosapi.api.v1.response.VotoResponse;
+import com.gilvano.votosapi.exceptions.AssociadoJaVotouNessaSessaoException;
+import com.gilvano.votosapi.exceptions.AssociadoNaoEncontradoException;
+import com.gilvano.votosapi.exceptions.AssociadoNaoPodeVotarException;
+import com.gilvano.votosapi.exceptions.SessaoNaoAtivaException;
+import com.gilvano.votosapi.exceptions.SessaoNaoEncontradaException;
 import com.gilvano.votosapi.model.Associado;
 import com.gilvano.votosapi.model.SessaoVotacao;
 import com.gilvano.votosapi.model.Voto;
@@ -16,9 +19,7 @@ import com.gilvano.votosapi.service.SessaoVotacaoService;
 import com.gilvano.votosapi.service.ValidaCpfService;
 import com.gilvano.votosapi.service.VotoService;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -76,10 +77,10 @@ public class VotoServiceImpl implements VotoService {
     private void validarSessaoEstaAtiva(VotoRequest votoRequest) {
         log.info("Validando se a sessão de votação {} está ativa", votoRequest.getSessaoVotacao());
         SessaoVotacao sessao = sessaoVotacaoService.BuscarPorId(votoRequest.getSessaoVotacao())
-                                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Sessao nao encontrada"));
+                                        .orElseThrow(() -> new SessaoNaoEncontradaException());
         if(!sessao.Ativa()){
             log.warn("A sessão de votação {} não está ativa", votoRequest.getSessaoVotacao());
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Sessão não está ativa");
+            throw new SessaoNaoAtivaException();
         }
     }
 
@@ -97,18 +98,18 @@ public class VotoServiceImpl implements VotoService {
                         voto.getAssociado().getCpf(),
                         voto.getSessaoVotacao().getId());
                         
-            throw new AssociadoJaVotouNessaSessao();
+            throw new AssociadoJaVotouNessaSessaoException();
         }
     }
 
     private Associado buscarAssociado(VotoRequest votoRequest) {
         return associadoService.BuscarPorCpf(votoRequest.getCpf())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Associado nao encontrado"));
+                .orElseThrow(() -> new AssociadoNaoEncontradoException());
     }
 
     private SessaoVotacao buscarSessaoVotacao(VotoRequest votoRequest) {
         SessaoVotacao sessaoVotacao = sessaoVotacaoService.BuscarPorId(votoRequest.getSessaoVotacao())
-                                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Sessao nao encontrada"));
+                                        .orElseThrow(() -> new SessaoNaoEncontradaException());
 
         return sessaoVotacao;
     }

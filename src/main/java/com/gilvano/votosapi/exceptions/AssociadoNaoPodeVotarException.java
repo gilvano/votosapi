@@ -1,4 +1,4 @@
-package com.gilvano.votosapi.api.v1.exceptions;
+package com.gilvano.votosapi.exceptions;
 
 public class AssociadoNaoPodeVotarException extends RuntimeException {    
     public AssociadoNaoPodeVotarException(){
