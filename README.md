@@ -77,7 +77,7 @@ Implementada integração com api que verifica se o associado está apto para vo
 Implementado uma tarefa para enviar as sessões finalizadas para um serviço de mensageria.
 
 #### Tarefa Bônus 3 - Performance
-
+Configurado Spring Boot Actuator e o Spring Boot Admin Client para monitoramento da API, que pode está acessível no link http://localhost:8080/actuator e pode ser lido por uma instancia do Spring Boot Admin Server(https://github.com/codecentric/spring-boot-admin)
 
 #### Tarefa Bônus 4 - Versionamento da API
 Versionamento da api foi feito com a implementação dos controllers na pasta /api/v1
