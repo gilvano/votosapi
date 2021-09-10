@@ -6,7 +6,7 @@ import java.util.Optional;
 import com.gilvano.votosapi.model.Pauta;
 
 public interface PautaService {
-    public Pauta salvar(Pauta pauta);   
-    public List<Pauta> buscarTodos();
-    public Optional<Pauta> BuscarPorId(Long id); 
+    Pauta salvar(Pauta pauta);   
+    List<Pauta> buscarTodos();
+    Optional<Pauta> BuscarPorId(Long id); 
 }

@@ -8,9 +8,9 @@ import com.gilvano.votosapi.api.v1.response.ResultadoSessaoResponse;
 import com.gilvano.votosapi.model.SessaoVotacao;
 
 public interface SessaoVotacaoService {
-    public SessaoVotacao salvar(SessaoVotacaoRequest sessaoVotacaoRequest);  
-    public List<SessaoVotacao> buscarTodos();
-    public Optional<SessaoVotacao> BuscarPorId(Long id);   
-    public ResultadoSessaoResponse buscarResultadoPorId(Long id);
-    public void atualizarDataEnvioIntegracao(Long idSessao);
+    SessaoVotacao salvar(SessaoVotacaoRequest sessaoVotacaoRequest);  
+    List<SessaoVotacao> buscarTodos();
+    Optional<SessaoVotacao> BuscarPorId(Long id);   
+    ResultadoSessaoResponse buscarResultadoPorId(Long id);
+    void atualizarDataEnvioIntegracao(Long idSessao);
 }

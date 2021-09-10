@@ -6,9 +6,9 @@ import java.util.Optional;
 import com.gilvano.votosapi.model.Associado;
 
 public interface AssociadoService {
-    public Associado salvar(Associado associado);    
-    public List<Associado> buscarTodos();
-    public Optional<Associado> BuscarPorId(Long id);
-    public Optional<Associado> BuscarPorCpf(String cpf);
+    Associado salvar(Associado associado);    
+    List<Associado> buscarTodos();
+    Optional<Associado> BuscarPorId(Long id);
+    Optional<Associado> BuscarPorCpf(String cpf);
 }
 
