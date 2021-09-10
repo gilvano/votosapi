@@ -11,7 +11,6 @@ import com.gilvano.votosapi.api.v1.response.AssociadoResponse;
 import com.gilvano.votosapi.model.Associado;
 import com.gilvano.votosapi.service.AssociadoService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +32,6 @@ import lombok.AllArgsConstructor;
 @Tag(name = "Associado", description = "Controller Associado")
 public class AssociadoController {
 
-    @Autowired
     private final AssociadoService associadoService;
 
     @PostMapping(produces = { "application/json" })

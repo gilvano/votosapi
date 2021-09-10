@@ -10,7 +10,6 @@ import com.gilvano.votosapi.api.v1.request.PautaRequest;
 import com.gilvano.votosapi.model.Pauta;
 import com.gilvano.votosapi.service.PautaService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,8 +31,7 @@ import lombok.AllArgsConstructor;
 @Tag(name = "Pauta", description = "Controller Pauta")
 public class PautaController {
 
-    @Autowired
-    private PautaService pautaService;
+    private final PautaService pautaService;
 
     @PostMapping(produces = { "application/json" })
     @ResponseStatus(HttpStatus.CREATED)

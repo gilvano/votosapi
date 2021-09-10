@@ -4,7 +4,6 @@ import com.gilvano.votosapi.api.v1.request.VotoRequest;
 import com.gilvano.votosapi.api.v1.response.VotoResponse;
 import com.gilvano.votosapi.service.VotoService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,8 +21,7 @@ import lombok.AllArgsConstructor;
 @Tag(name = "Voto", description = "Controller Voto")
 public class VotoController {
 
-    @Autowired
-    private VotoService votoService;
+    private final VotoService votoService;
 
     @PostMapping(produces = { "application/json" })
     @ResponseStatus(HttpStatus.CREATED)

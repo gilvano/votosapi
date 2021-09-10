@@ -9,7 +9,6 @@ import com.gilvano.votosapi.api.v1.response.ResultadoSessaoResponse;
 import com.gilvano.votosapi.model.SessaoVotacao;
 import com.gilvano.votosapi.service.SessaoVotacaoService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,8 +29,7 @@ import lombok.AllArgsConstructor;
 @Tag(name = "Sessao de Votacao", description = "Controller SessaoVotacao")
 public class SessaoVotacaoController {
 
-    @Autowired
-    private SessaoVotacaoService sessaoVotacaoService;
+    private final SessaoVotacaoService sessaoVotacaoService;
 
     @PostMapping(produces = { "application/json" })
     @ResponseStatus(HttpStatus.CREATED)
