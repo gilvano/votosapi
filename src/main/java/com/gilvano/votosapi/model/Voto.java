@@ -12,8 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
-import com.gilvano.votosapi.util.TipoSimNao;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -38,7 +36,7 @@ public class Voto {
 
     @Enumerated(EnumType.STRING)    
     @NotNull
-	private TipoSimNao voto;    
+	private SimNao voto;    
 
     @NotNull
     @Builder.Default

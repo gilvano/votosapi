@@ -1,10 +1,10 @@
-package com.gilvano.votosapi.util;
+package com.gilvano.votosapi.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
-public enum TipoSimNao {
+public enum SimNao {
     SIM("SIM"),
     NAO("NAO");
 

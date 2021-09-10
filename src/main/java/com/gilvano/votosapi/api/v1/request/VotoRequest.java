@@ -4,7 +4,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-import com.gilvano.votosapi.util.TipoSimNao;
+import com.gilvano.votosapi.model.SimNao;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -27,7 +27,7 @@ public class VotoRequest {
        
     @NotNull 
     @NotEmpty 
-	private TipoSimNao voto;    
+	private SimNao voto;    
 
     @NotNull
     private Long sessaoVotacao;

@@ -8,11 +8,11 @@ import com.gilvano.votosapi.api.v1.request.SessaoVotacaoRequest;
 import com.gilvano.votosapi.api.v1.response.ResultadoSessaoResponse;
 import com.gilvano.votosapi.model.Pauta;
 import com.gilvano.votosapi.model.SessaoVotacao;
+import com.gilvano.votosapi.model.SimNao;
 import com.gilvano.votosapi.repository.SessaoVotacaoRepository;
 import com.gilvano.votosapi.repository.VotoRepository;
 import com.gilvano.votosapi.service.PautaService;
 import com.gilvano.votosapi.service.SessaoVotacaoService;
-import com.gilvano.votosapi.util.TipoSimNao;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -65,8 +65,8 @@ public class SessaoVotacaoServiceImpl implements SessaoVotacaoService {
                 .pauta(sessao.getPauta())
                 .dataAbertura(sessao.getDataCriacao().toString())
                 .dataFechamento(sessao.getDataFinalizacao().toString())
-                .totalVotosSim(votoRepository.countVotoBySessaoVotacao_IdAndVoto(id, TipoSimNao.SIM))
-                .totalVotosNao(votoRepository.countVotoBySessaoVotacao_IdAndVoto(id, TipoSimNao.NAO))
+                .totalVotosSim(votoRepository.countVotoBySessaoVotacao_IdAndVoto(id, SimNao.SIM))
+                .totalVotosNao(votoRepository.countVotoBySessaoVotacao_IdAndVoto(id, SimNao.NAO))
                 .build();
     }
 
