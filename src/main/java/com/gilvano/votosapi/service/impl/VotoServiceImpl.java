@@ -35,23 +35,19 @@ public class VotoServiceImpl implements VotoService {
     private final ValidaCpfService validaCpfService;
     
     public VotoResponse salvar(VotoRequest votoRequest) {
-        try {
-            Voto voto = criarVoto(votoRequest); 
-            validarUsuarioJaVotou(voto);
-            validarSessaoEstaAtiva(votoRequest);
-            validarUsuarioPodeVotar(votoRequest);                    
-            
-            log.info("Cadastrando voto do associado com o CPF {} na pauta {} - {}", 
-                        voto.getAssociado().getCpf(),
-                        voto.getSessaoVotacao().getPauta().getId(),
-                        voto.getSessaoVotacao().getPauta().getDescricao());
+        Voto voto = criarVoto(votoRequest); 
+        validarUsuarioJaVotou(voto);
+        validarSessaoEstaAtiva(votoRequest);
+        validarUsuarioPodeVotar(votoRequest);                    
+        
+        log.info("Cadastrando voto do associado com o CPF {} na pauta {} - {}", 
+                    voto.getAssociado().getCpf(),
+                    voto.getSessaoVotacao().getPauta().getId(),
+                    voto.getSessaoVotacao().getPauta().getDescricao());
 
-            votoRepository.save(voto);
+        votoRepository.save(voto);
 
-            return new VotoResponse("Voto computado com sussesso");
-        } catch (Exception e) {
-            return new VotoResponse("Não foi possível processar o voto. Motivo: " + e.getMessage());   
-        }
+        return new VotoResponse("Voto computado com sussesso");
     }            
 
     public List<Voto> buscarTodos() {
