@@ -6,18 +6,18 @@ import com.gilvano.votosapi.config.RabbitConfig;
 import com.gilvano.votosapi.service.EnviaResultadoService;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 @Service
 @Log4j2
+@AllArgsConstructor
 public class EnviaResultadoServiceImpl implements EnviaResultadoService {
 
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
+    private final RabbitTemplate rabbitTemplate;
 
     public void enviarResultado(ResultadoSessaoResponse resultado){
         try {

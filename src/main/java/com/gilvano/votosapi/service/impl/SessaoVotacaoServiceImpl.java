@@ -14,26 +14,22 @@ import com.gilvano.votosapi.service.PautaService;
 import com.gilvano.votosapi.service.SessaoVotacaoService;
 import com.gilvano.votosapi.util.TipoSimNao;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 @Service
 @Log4j2
+@AllArgsConstructor
 public class SessaoVotacaoServiceImpl implements SessaoVotacaoService {
 
-    @Autowired
-    private SessaoVotacaoRepository sessaoVotacaoRepository;
-
-    @Autowired
-    private PautaService pautaService;
-
-    @Autowired
-    private VotoRepository votoRepository;
+    private final SessaoVotacaoRepository sessaoVotacaoRepository;
+    private final PautaService pautaService;
+    private final VotoRepository votoRepository;
 
     
     public SessaoVotacao salvar(SessaoVotacaoRequest sessaoVotacaoRequest) {

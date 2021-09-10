@@ -7,17 +7,17 @@ import com.gilvano.votosapi.model.Pauta;
 import com.gilvano.votosapi.repository.PautaRepository;
 import com.gilvano.votosapi.service.PautaService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 @Service
 @Log4j2
+@AllArgsConstructor
 public class PautaServiceImpl implements PautaService {
 
-    @Autowired
-    private PautaRepository pautaRepository;
+    private final PautaRepository pautaRepository;
     
     public Pauta salvar(Pauta pauta) {
         log.info("Cadastrando pauta: {}", pauta.getDescricao());

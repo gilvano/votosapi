@@ -16,28 +16,22 @@ import com.gilvano.votosapi.service.SessaoVotacaoService;
 import com.gilvano.votosapi.service.ValidaCpfService;
 import com.gilvano.votosapi.service.VotoService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 @Service
 @Log4j2
+@AllArgsConstructor
 public class VotoServiceImpl implements VotoService {
 
-    @Autowired
-    private VotoRepository votoRepository;
-
-    @Autowired
-    private AssociadoService associadoService;    
-
-    @Autowired
-    private SessaoVotacaoService sessaoVotacaoService; 
-
-    @Autowired
-    private ValidaCpfService validaCpfService;
+    private final VotoRepository votoRepository;
+    private final AssociadoService associadoService;    
+    private final  SessaoVotacaoService sessaoVotacaoService; 
+    private final ValidaCpfService validaCpfService;
     
     public VotoResponse salvar(VotoRequest votoRequest) {
         try {

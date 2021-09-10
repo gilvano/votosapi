@@ -7,19 +7,19 @@ import com.gilvano.votosapi.model.Associado;
 import com.gilvano.votosapi.repository.AssociadoRepository;
 import com.gilvano.votosapi.service.AssociadoService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 @Service
 @Log4j2
+@AllArgsConstructor
 public class AssociadoServiceImpl implements AssociadoService {
 
-    @Autowired
-    private AssociadoRepository associadoRepository;
+    private final AssociadoRepository associadoRepository;
     
     @Override
     public Associado salvar(Associado associado) {
